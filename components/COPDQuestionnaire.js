@@ -53,11 +53,13 @@ const COPDQuestionnaire = () => {
   const [exacerbations, setExacerbations] = useState(0);
   const [hospitalVisits, setHospitalVisits] = useState(0);
   const [result, setResult] = useState('');
+  const [debug, setDebug] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const group = determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospitalVisits);
     setResult(`The patient falls into: ${group}`);
+    setDebug(`${coughSound} + ${symptoms} + ${CATScore} + ${exacerbations} + ${hospitalVisits}`);
   };
 
   return (
@@ -105,6 +107,7 @@ const COPDQuestionnaire = () => {
       </form>
 
       {result && <div><strong>{result}</strong></div>}
+      {debug && <div><strong>{debug}</strong></div>}
     </div>
   );
 };
