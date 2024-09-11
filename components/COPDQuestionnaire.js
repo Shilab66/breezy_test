@@ -62,6 +62,8 @@ const COPDQuestionnaire = () => {
     //setDebug(`${coughSound} + ${symptoms} + ${CATScore} + ${exacerbations} + ${hospitalVisits}`);
     if(CATScore < 10 && exacerbations <= 1 && hospitalVisits === 0){
       setDebug(`true`);
+    } else {
+      setDebug(`false`);
     }
   };
 
