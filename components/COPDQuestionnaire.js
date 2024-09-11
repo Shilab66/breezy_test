@@ -3,7 +3,7 @@ import { useState } from 'react';
 // Enum-like constants for the dropdowns
 const CoughSound = {
   NORMAL: 'Normal',
-  MILD: 'Mild',
+  COPD: 'COPD',
 };
 
 const Symptoms = {
@@ -27,7 +27,7 @@ function determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospi
   if (coughSound === CoughSound.NORMAL) {
     return COPDGroup.NO_COPD;
   } else if (CATScore < 10 && exacerbations <= 1 && hospitalVisits === 0) {
-    if (symptoms === Symptoms.MILD && coughSound === CoughSound.MILD) {
+    if (symptoms === Symptoms.MILD && coughSound === CoughSound.COPD) {
       return COPDGroup.GROUP_A;
     }
   } else if (CATScore > 10 && exacerbations <= 1 && hospitalVisits === 0) {
