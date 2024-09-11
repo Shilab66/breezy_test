@@ -59,7 +59,7 @@ const COPDQuestionnaire = () => {
     e.preventDefault();
     const group = determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospitalVisits);
     setResult(`The patient falls into: ${group}`);
-    setDebug(`${coughSound} + ${symptoms} + ${CATScore} + ${exacerbations} + ${hospitalVisits}`);
+    //setDebug(`${coughSound} + ${symptoms} + ${CATScore} + ${exacerbations} + ${hospitalVisits}`);
     if(CATScore < 10 && exacerbations <= 1 && hospitalVisits === 0){
       setDebug(`true`);
     }
