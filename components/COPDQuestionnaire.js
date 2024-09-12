@@ -28,15 +28,15 @@ function determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospi
     return COPDGroup.NO_COPD;
   } else if (CATScore + symptoms.value <= 11 && exacerbations <= 1 && hospitalVisits === 0) {
       return COPDGroup.GROUP_A;
-  } else if (CATScore + symptoms.value => 12 && exacerbations <= 1 && hospitalVisits === 0) {
+  } else if (CATScore + symptoms.value >= 12 && exacerbations <= 1 && hospitalVisits === 0) {
       return COPDGroup.GROUP_B;
   } else if (CATScore + symptoms.value <= 11 && exacerbations >= 2 && hospitalVisits >= 0) {
       return COPDGroup.GROUP_C;
   } else if (CATScore + symptoms.value <= 11 && exacerbations >= 1 && hospitalVisits >= 1) {
       return COPDGroup.GROUP_C;
-  } else if (CATScore + symptoms.value => 12 && exacerbations >= 1 && hospitalVisits >= 1) {
+  } else if (CATScore + symptoms.value >= 12 && exacerbations >= 1 && hospitalVisits >= 1) {
       return COPDGroup.GROUP_D;
-  } else if (CATScore + symptoms.value => 12 && exacerbations >= 2 && hospitalVisits >= 0) {
+  } else if (CATScore + symptoms.value >= 12 && exacerbations >= 2 && hospitalVisits >= 0) {
       return COPDGroup.GROUP_D;
   }
   return COPDGroup.UNCATEGORIZED;
