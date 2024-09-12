@@ -27,17 +27,17 @@ function determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospi
   if (coughSound === CoughSound.NORMAL) {
     return COPDGroup.NO_COPD;
   } else if (CATScore + symptoms.value <= 11 && exacerbations <= 1 && hospitalVisits === 0) {
-      return COPDGroup.GROUP_A;
+    return COPDGroup.GROUP_A;
   } else if (CATScore + symptoms.value >= 12 && exacerbations <= 1 && hospitalVisits === 0) {
-      return COPDGroup.GROUP_B;
+    return COPDGroup.GROUP_B;
   } else if (CATScore + symptoms.value <= 11 && exacerbations >= 2 && hospitalVisits >= 0) {
-      return COPDGroup.GROUP_C;
+    return COPDGroup.GROUP_C;
   } else if (CATScore + symptoms.value <= 11 && exacerbations >= 1 && hospitalVisits >= 1) {
-      return COPDGroup.GROUP_C;
+    return COPDGroup.GROUP_C;
   } else if (CATScore + symptoms.value >= 12 && exacerbations >= 1 && hospitalVisits >= 1) {
-      return COPDGroup.GROUP_D;
+    return COPDGroup.GROUP_D;
   } else if (CATScore + symptoms.value >= 12 && exacerbations >= 2 && hospitalVisits >= 0) {
-      return COPDGroup.GROUP_D;
+    return COPDGroup.GROUP_D;
   }
   return COPDGroup.UNCATEGORIZED;
 }
@@ -58,6 +58,14 @@ const COPDQuestionnaire = () => {
     const newScores = [...questionScores];
     newScores[index] = parseInt(value, 10);
     setQuestionScores(newScores);
+  };
+
+  const handleExacerbationsChange = (e) => {
+    setExacerbations(Math.max(0, parseInt(e.target.value, 10) || 0));
+  };
+
+  const handleHospitalVisitsChange = (e) => {
+    setHospitalVisits(Math.max(0, parseInt(e.target.value, 10) || 0));
   };
 
   const handleSubmit = (e) => {
@@ -127,12 +135,22 @@ const COPDQuestionnaire = () => {
 
         <div>
           <label>Number of Exacerbations:</label>
-          <input type="number" value={exacerbations} onChange={(e) => setExacerbations(e.target.value)} />
+          <input
+            type="number"
+            value={exacerbations}
+            onChange={handleExacerbationsChange}
+            min="0"
+          />
         </div>
 
         <div>
           <label>Number of Hospital Visits:</label>
-          <input type="number" value={hospitalVisits} onChange={(e) => setHospitalVisits(e.target.value)} />
+          <input
+            type="number"
+            value={hospitalVisits}
+            onChange={handleHospitalVisitsChange}
+            min="0"
+          />
         </div>
 
         <button type="submit">Submit</button>
