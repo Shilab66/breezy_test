@@ -45,18 +45,26 @@ function determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospi
 const COPDQuestionnaire = () => {
   const [coughSound, setCoughSound] = useState(CoughSound.NORMAL);
   const [symptoms, setSymptoms] = useState(Symptoms.NONE);
-  const [CATScore, setCATScore] = useState(0);
+  const [questionScores, setQuestionScores] = useState(Array(8).fill(0)); // Initialize scores for 8 questions
   const [exacerbations, setExacerbations] = useState(0);
   const [hospitalVisits, setHospitalVisits] = useState(0);
   const [result, setResult] = useState('');
   const [debug, setDebug] = useState('');
 
+  // Calculate CATScore as the sum of all question scores
+  const CATScore = questionScores.reduce((a, b) => a + b, 0);
+
+  const handleQuestionChange = (index, value) => {
+    const newScores = [...questionScores];
+    newScores[index] = parseInt(value, 10);
+    setQuestionScores(newScores);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const group = determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospitalVisits);
     setResult(`The patient falls into: ${group}`);
-    //setDebug(`${coughSound} + ${symptoms} + ${CATScore} + ${exacerbations} + ${hospitalVisits}`);
-    if(CATScore < 10 && exacerbations <= 1 && hospitalVisits == 0){
+    if (CATScore < 10 && exacerbations <= 1 && hospitalVisits === 0) {
       setDebug(`true`);
     } else {
       setDebug(`false`);
@@ -92,10 +100,30 @@ const COPDQuestionnaire = () => {
           </select>
         </div>
 
-        <div>
-          <label>CAT Score:</label>
-          <input type="number" value={CATScore} onChange={(e) => setCATScore(e.target.value)} />
-        </div>
+        {[
+          "I never cough / I cough all the time",
+          "I have no phlegm in my chest / My chest is full of phlegm",
+          "My chest does not feel tight / My chest feels very tight",
+          "Not breathless walking up a hill / Very breathless walking up a hill",
+          "Not limited in activities / Very limited in activities",
+          "Confident leaving home / Not confident leaving home",
+          "Sleep soundly / Don't sleep soundly",
+          "Lots of energy / No energy at all"
+        ].map((question, index) => (
+          <div key={index}>
+            <label>{question}:</label>
+            <select
+              value={questionScores[index]}
+              onChange={(e) => handleQuestionChange(index, e.target.value)}
+            >
+              {[0, 1, 2, 3, 4, 5].map((score) => (
+                <option key={score} value={score}>
+                  {score}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
 
         <div>
           <label>Number of Exacerbations:</label>
