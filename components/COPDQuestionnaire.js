@@ -7,11 +7,11 @@ const CoughSound = {
 };
 
 const Symptoms = {
-  NONE: 'None',
-  MILD: 'Mild',
-  SEVERE: 'Coughing, wheezing, and shortness of breath',
-  VERY_SEVERE: 'Air flow severely limited',
-  EXTREME: 'Extremely hard to breathe',
+  NONE: { value: 0, label: 'None' },
+  MILD: { value: 1, label: 'Mild' },
+  SEVERE: { value: 2, label: 'Coughing, wheezing, and shortness of breath' },
+  VERY_SEVERE: { value: 3, label: 'Air flow severely limited' },
+  EXTREME: { value: 4, label: 'Extremely hard to breathe' },
 };
 
 const COPDGroup = {
@@ -26,22 +26,18 @@ const COPDGroup = {
 function determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospitalVisits) {
   if (coughSound === CoughSound.NORMAL) {
     return COPDGroup.NO_COPD;
-  } else if (CATScore < 10 && exacerbations <= 1 && hospitalVisits === 0) {
-    if (symptoms === Symptoms.MILD && coughSound === CoughSound.COPD) {
+  } else if (CATScore + symptoms.value <= 11 && exacerbations <= 1 && hospitalVisits === 0) {
       return COPDGroup.GROUP_A;
-    }
-  } else if (CATScore > 10 && exacerbations <= 1 && hospitalVisits === 0) {
-    if (symptoms === Symptoms.SEVERE) {
+  } else if (CATScore + symptoms.value => 12 && exacerbations <= 1 && hospitalVisits === 0) {
       return COPDGroup.GROUP_B;
-    }
-  } else if (CATScore < 10 && (exacerbations >= 2 || hospitalVisits >= 1)) {
-    if (symptoms === Symptoms.VERY_SEVERE) {
+  } else if (CATScore + symptoms.value <= 11 && exacerbations >= 2 && hospitalVisits >= 0) {
       return COPDGroup.GROUP_C;
-    }
-  } else if (CATScore > 10 && (exacerbations >= 2 || hospitalVisits >= 1)) {
-    if (symptoms === Symptoms.EXTREME) {
+  } else if (CATScore + symptoms.value <= 11 && exacerbations >= 1 && hospitalVisits >= 1) {
+      return COPDGroup.GROUP_C;
+  } else if (CATScore + symptoms.value => 12 && exacerbations >= 1 && hospitalVisits >= 1) {
       return COPDGroup.GROUP_D;
-    }
+  } else if (CATScore + symptoms.value => 12 && exacerbations >= 2 && hospitalVisits >= 0) {
+      return COPDGroup.GROUP_D;
   }
   return COPDGroup.UNCATEGORIZED;
 }
@@ -84,10 +80,13 @@ const COPDQuestionnaire = () => {
 
         <div>
           <label>Symptoms:</label>
-          <select value={symptoms} onChange={(e) => setSymptoms(e.target.value)}>
+          <select
+            value={symptoms.label}
+            onChange={(e) => setSymptoms(Object.values(Symptoms).find(symptom => symptom.label === e.target.value))}
+          >
             {Object.values(Symptoms).map((symptom) => (
-              <option key={symptom} value={symptom}>
-                {symptom}
+              <option key={symptom.value} value={symptom.label}>
+                {symptom.label}
               </option>
             ))}
           </select>
