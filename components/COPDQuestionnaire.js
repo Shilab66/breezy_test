@@ -157,7 +157,6 @@ const COPDQuestionnaire = () => {
       </form>
 
       {result && <div><strong>{result}</strong></div>}
-      {/*{debug && <div><strong>{debug}</strong></div>}*/}
     </div>
   );
 };
