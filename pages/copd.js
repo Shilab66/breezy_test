@@ -1,4 +1,4 @@
-import COPDQuestionnaire from '../components/COPDQuestionnaire';
+import COPDQuestionnaire from '../components/COPDQuestionnaire.js';
 
 const COPDPage = () => {
   return (
