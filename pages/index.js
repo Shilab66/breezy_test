@@ -7,13 +7,13 @@ const HomePage = () => {
       <p>Please choose one of the following questionnaires:</p>
 
       <div style={{ margin: '20px' }}>
-        <Link href="/components/COPDQuestionnaire">
+        <Link href="../components/COPDQuestionnaire">
           <button style={buttonStyle}>COPD Questionnaire</button>
         </Link>
       </div>
 
       <div style={{ margin: '20px' }}>
-        <Link href="/components/TinkermanQuestionnaire">
+        <Link href="../components/TinkermanQuestionnaire">
           <button style={buttonStyle}>Tinkerman Questionnaire</button>
         </Link>
       </div>
