@@ -14,6 +14,12 @@ const HomePage = () => {
           <button>Tinkerman Questionnaire</button>
         </Link>
       </div>
+
+    <div>
+        <Link href="/audio">
+          <button>Audio Upload</button>
+        </Link>
+      </div>
     </div>
   );
 };
