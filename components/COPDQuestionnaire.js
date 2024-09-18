@@ -49,7 +49,6 @@ const COPDQuestionnaire = () => {
   const [exacerbations, setExacerbations] = useState(0);
   const [hospitalVisits, setHospitalVisits] = useState(0);
   const [result, setResult] = useState('');
-  const [debug, setDebug] = useState('');
 
   // Calculate CATScore as the sum of all question scores
   const CATScore = questionScores.reduce((a, b) => a + b, 0);
