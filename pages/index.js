@@ -6,8 +6,6 @@ const HomePage = () => {
           <button>Audio Upload</button>
         </Link>
       </div>
-    </div>
-  );
 };
 
 export default HomePage;
