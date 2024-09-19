@@ -22,6 +22,7 @@ const AudioPage = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       mediaRecorderRef.current.ondataavailable = handleDataAvailable;
+      mediaRecorderRef.current.onstop = handleStop; // Attach the stop event handler
       mediaRecorderRef.current.start();
       setIsRecording(true);
     } catch (err) {
@@ -38,9 +39,14 @@ const AudioPage = () => {
 
   // Stop recording and process the data
   const stopRecording = () => {
-    mediaRecorderRef.current.stop();
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+    }
     setIsRecording(false);
+  };
 
+  // Handle what happens when recording stops
+  const handleStop = () => {
     const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
     const audioURL = URL.createObjectURL(audioBlob);
     setAudioSrc(audioURL);
