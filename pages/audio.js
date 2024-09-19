@@ -20,7 +20,7 @@ const AudioPage = () => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
+      mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/ogg' });
       mediaRecorderRef.current.ondataavailable = handleDataAvailable;
       mediaRecorderRef.current.start();
       setIsRecording(true);
@@ -41,7 +41,7 @@ const AudioPage = () => {
     mediaRecorderRef.current.stop();
     setIsRecording(false);
 
-    const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+    const audioBlob = new Blob(recordedChunks, { type: 'audio/ogg' });
     const audioURL = URL.createObjectURL(audioBlob);
     setAudioSrc(audioURL);
     setRecordedChunks([]); // Reset chunks for next recording
