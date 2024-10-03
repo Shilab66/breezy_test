@@ -10,6 +10,7 @@ const HomePage = () => {
          <button>COPD Questionnaire</button>
        </Link>
      </div>
+  
      <div>
        <Link href="/tinkerman">
          <button>Tinkerman Questionnaire</button>
@@ -17,11 +18,19 @@ const HomePage = () => {
      </div>
 
 
-   <div>
+    <div>
        <Link href="/audio">
          <button>Audio Upload</button>
        </Link>
      </div>
+
+  <div>
+       <Link href="/VoiceRecorder">
+         <button>Audio Record</button>
+       </Link>
+     </div>
+
+  
    </div>
  );
 };
