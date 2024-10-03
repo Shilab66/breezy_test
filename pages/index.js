@@ -30,6 +30,18 @@ const HomePage = () => {
        </Link>
      </div>
 
+   <div>
+       <Link href="/login">
+         <button>Login</button>
+       </Link>
+     </div>
+
+   <div>
+       <Link href="/signup">
+         <button>Sign Up</button>
+       </Link>
+     </div>
+
   
    </div>
  );
