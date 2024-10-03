@@ -18,7 +18,7 @@ export default function SignUp() {
   };
 
   return (
-    {/*<div>
+    <div>
       <h2>Sign Up</h2>
       {error && <p>{error}</p>}
       <form onSubmit={handleSignUp}>
@@ -38,7 +38,7 @@ export default function SignUp() {
         />
         <button type="submit">Sign Up</button>
       </form>
-    </div>*/}
+    </div>
   );
 }
 
