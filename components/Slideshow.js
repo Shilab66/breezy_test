@@ -4,19 +4,19 @@ import React, { useState } from 'react';
 const slides = [
   {
     id: 1,
-    image: '/images/image1.png', // Update with actual path
+    image: '/images/default.png', // Update with actual path
     instruction: 'Step 1: Insert Instruction',
     description: 'More text about what to do in step 1',
   },
   {
     id: 2,
-    image: '/images/image2.png', // Update with actual path
+    image: '/images/default.png', // Update with actual path
     instruction: 'Step 2: Insert Instruction',
     description: 'More text about what to do in step 2',
   },
   {
     id: 3,
-    image: '/images/image3.png', // Update with actual path
+    image: '/images/default.png', // Update with actual path
     instruction: 'Step 3: Insert Instruction',
     description: 'More text about what to do in step 3',
   },
