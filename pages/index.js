@@ -30,7 +30,7 @@ const HomePage = () => {
        </Link>
      </div>
 
-   <div>
+   {/*<div>
        <Link href="/login">
          <button>Login</button>
        </Link>
@@ -39,6 +39,12 @@ const HomePage = () => {
    <div>
        <Link href="/signup">
          <button>Sign Up</button>
+       </Link>
+     </div>*/}
+
+  <div>
+       <Link href="./Slideshow.js">
+         <button>Slideshow</button>
        </Link>
      </div>
 
