@@ -43,7 +43,7 @@ const HomePage = () => {
      </div>*/}
 
   <div>
-       <Link href="./Slideshow.js">
+       <Link href="/slideshow">
          <button>Slideshow</button>
        </Link>
      </div>
