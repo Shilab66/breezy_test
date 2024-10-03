@@ -1,4 +1,4 @@
-import { useState } from 'react';
+{/*import { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -41,3 +41,4 @@ export default function SignUp() {
     </div>
   );
 }
+*/}
