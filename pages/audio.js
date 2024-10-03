@@ -16,20 +16,6 @@ const AudioPage = () => {
     }
   };
 
-  // Function to start recording
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-      mediaRecorderRef.current.ondataavailable = handleDataAvailable;
-      mediaRecorderRef.current.onstop = handleStop; // Attach the stop event handler
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-    } catch (err) {
-      console.error('Error accessing audio devices:', err);
-    }
-  };
-
   // Collect audio data chunks when recording
   const handleDataAvailable = (event) => {
     if (event.data.size > 0) {
@@ -37,44 +23,14 @@ const AudioPage = () => {
     }
   };
 
-  // Stop recording and process the data
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      mediaRecorderRef.current.stop();
-    }
-    setIsRecording(false);
-  };
-
-  // Handle what happens when recording stops
-  const handleStop = () => {
-    const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
-    const audioURL = URL.createObjectURL(audioBlob);
-    setAudioSrc(audioURL);
-    setRecordedChunks([]); // Reset chunks for next recording
-  };
-
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h2>Audio Recorder and Player</h2>
+      <h2>Audio Upload and Player</h2>
 
       {/* Audio Upload */}
       <div>
         <h3>Upload an Audio File</h3>
         <input type="file" accept="audio/*" onChange={handleAudioUpload} />
-      </div>
-
-      {/* Audio Recorder */}
-      <div style={{ marginTop: '20px' }}>
-        <h3>Record Your Audio</h3>
-        {!isRecording ? (
-          <button onClick={startRecording} style={{ padding: '10px' }}>
-            Start Recording
-          </button>
-        ) : (
-          <button onClick={stopRecording} style={{ padding: '10px', backgroundColor: 'red' }}>
-            Stop Recording
-          </button>
-        )}
       </div>
 
       {/* Audio Player */}
