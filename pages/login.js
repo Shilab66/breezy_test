@@ -1,4 +1,4 @@
-{/*import { useState } from 'react';
+import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -18,7 +18,7 @@ export default function Login() {
   };
 
   return (
-    <div>
+    {/*<div>
       <h2>Login</h2>
       {error && <p>{error}</p>}
       <form onSubmit={handleLogin}>
@@ -38,7 +38,7 @@ export default function Login() {
         />
         <button type="submit">Login</button>
       </form>
-    </div>
+    </div>*/}
   );
 }
-*/}
+
