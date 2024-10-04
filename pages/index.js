@@ -49,7 +49,7 @@ const HomePage = () => {
      </div>
 
    <div>
-       <Link href="/calandar">
+       <Link href="/calendar">
          <button>Calandar</button>
        </Link>
      </div>
