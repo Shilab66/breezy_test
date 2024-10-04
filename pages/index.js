@@ -30,13 +30,13 @@ const HomePage = () => {
        </Link>
      </div>
 
-   {/*<div>
+     <div>
        <Link href="/login">
          <button>Login</button>
        </Link>
      </div>
 
-   <div>
+   {/*<div>
        <Link href="/signup">
          <button>Sign Up</button>
        </Link>
