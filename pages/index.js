@@ -36,11 +36,11 @@ const HomePage = () => {
        </Link>
      </div>
 
-   {/*<div>
+    <div>
        <Link href="/signup">
          <button>Sign Up</button>
        </Link>
-     </div>*/}
+     </div>
 
   <div>
        <Link href="/slideshow">
