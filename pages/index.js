@@ -48,6 +48,12 @@ const HomePage = () => {
        </Link>
      </div>
 
+   <div>
+       <Link href="/calandar">
+         <button>Calandar</button>
+       </Link>
+     </div>
+
   
    </div>
  );
