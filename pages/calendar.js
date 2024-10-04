@@ -1,53 +1,46 @@
 import React, { useState } from 'react';
-import '../css/calendar.css';
+import '../css/calendar.css'; // Importing the CSS file
 
 const traitsData = {
-  Cough: [
-    { label: 'Intermittent and Worse at Night/Early Morning (Asthma)', points: 2, color: 'darkgreen' },
-    { label: 'Persistent and Productive (COPD)', points: 1, color: 'lightgreen' },
-    { label: 'None or Rarely (Healthy)', points: 0, color: 'transparent' }
-  ],
-  ShortnessOfBreath: [
-    { label: 'Episodic, Triggered by Specific Stimuli (Asthma)', points: 2, color: 'darkgreen' },
-    { label: 'Progressive, Related to Activity Levels (COPD)', points: 1, color: 'lightgreen' },
-    { label: 'None or Mild (Healthy)', points: 0, color: 'transparent' }
-  ],
-  Wheezing: [
-    { label: 'Common, Improved with Inhalers (Asthma)', points: 2, color: 'darkgreen' },
-    { label: 'Less Common or Not Responsive to Inhalers (COPD)', points: 1, color: 'lightgreen' },
-    { label: 'None or Rarely (Healthy)', points: 0, color: 'transparent' }
-  ],
-  SputumProduction: [
-    { label: 'Less Frequent (Asthma)', points: 2, color: 'darkgreen' },
-    { label: 'Regular and Productive (COPD)', points: 1, color: 'lightgreen' },
-    { label: 'None or Rarely (Healthy)', points: 0, color: 'transparent' }
-  ],
-  SymptomVariation: [
-    { label: 'Significant Variation Over Time (Asthma)', points: 2, color: 'darkgreen' },
-    { label: 'Less Variation, Progressive Symptoms (COPD)', points: 1, color: 'lightgreen' },
-    { label: 'Stable or No Symptoms (Healthy)', points: 0, color: 'transparent' }
-  ]
+  1: {
+    Cough: { label: 'Intermittent and Worse at Night/Early Morning (Asthma)', points: 2, color: 'darkgreen' },
+    ShortnessOfBreath: { label: 'Episodic, Triggered by Specific Stimuli (Asthma)', points: 2, color: 'darkgreen' },
+    Wheezing: { label: 'Common, Improved with Inhalers (Asthma)', points: 2, color: 'darkgreen' },
+    SputumProduction: { label: 'Less Frequent (Asthma)', points: 2, color: 'darkgreen' },
+    SymptomVariation: { label: 'Significant Variation Over Time (Asthma)', points: 2, color: 'darkgreen' }
+  },
+  2: {
+    Cough: { label: 'Persistent and Productive (COPD)', points: 1, color: 'lightgreen' },
+    ShortnessOfBreath: { label: 'Progressive, Related to Activity Levels (COPD)', points: 1, color: 'lightgreen' },
+    Wheezing: { label: 'Less Common or Not Responsive to Inhalers (COPD)', points: 1, color: 'lightgreen' },
+    SputumProduction: { label: 'Regular and Productive (COPD)', points: 1, color: 'lightgreen' },
+    SymptomVariation: { label: 'Less Variation, Progressive Symptoms (COPD)', points: 1, color: 'lightgreen' }
+  },
+  3: {}, // No data for day 3
+  // Add similar entries for each day of the month
 };
 
 const Calendar = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [selectedTrait, setSelectedTrait] = useState('Cough');
   const [hoveredDay, setHoveredDay] = useState(null); // To track hovered day
   const [popupInfo, setPopupInfo] = useState(null); // To show pop-up info
 
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
-  
-  const getTraitColor = () => {
-    // returns random points based on day. Replace with real data.
-    const randomTrait = Math.floor(Math.random() * 3);
-    const trait = traitsData[selectedTrait][randomTrait];
-    return trait ? trait.color : '#e0e0e0'; // Gray color for no data
+
+  const getTraitColor = (day) => {
+    const dayData = traitsData[day];
+    if (!dayData) return '#e0e0e0'; // Gray color for no data
+
+    // Calculate a color based on the traits (e.g., prioritize higher severity traits like 2 points)
+    const severity = Object.values(dayData).reduce((max, trait) => Math.max(max, trait.points), 0);
+    if (severity === 2) return 'darkgreen';
+    if (severity === 1) return 'lightgreen';
+    return '#e0e0e0'; // Gray for no or zero points
   };
 
-  const getDayInfo = () => {
-    const randomTrait = Math.floor(Math.random() * 3);
-    return traitsData[selectedTrait][randomTrait]; // Return the info for pop-up
+  const getDayInfo = (day) => {
+    return traitsData[day] || {}; // Return info for the day, or empty if no data
   };
 
   const renderDays = () => {
@@ -91,13 +84,6 @@ const Calendar = () => {
             <option key={i} value={2020 + i}>{2020 + i}</option>
           ))}
         </select>
-
-        {/* Trait Selector */}
-        <select value={selectedTrait} onChange={(e) => setSelectedTrait(e.target.value)}>
-          {Object.keys(traitsData).map((trait, i) => (
-            <option key={i} value={trait}>{trait}</option>
-          ))}
-        </select>
       </div>
 
       {/* Calendar Grid */}
@@ -109,8 +95,15 @@ const Calendar = () => {
       {hoveredDay && popupInfo && (
         <div className="popup">
           <h4>Day {hoveredDay} Info</h4>
-          <p>{popupInfo.label}</p>
-          <p>Points: {popupInfo.points}</p>
+          {Object.keys(popupInfo).length > 0 ? (
+            Object.entries(popupInfo).map(([trait, data]) => (
+              <div key={trait}>
+                <p><strong>{trait}:</strong> {data.label} (Points: {data.points})</p>
+              </div>
+            ))
+          ) : (
+            <p>No data available for this day</p>
+          )}
         </div>
       )}
     </div>
