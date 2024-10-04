@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './css/calendar.css'; // Import the CSS file
+import '../css/calendar.css'; // Import the CSS file
 
 const traitsData = {
   Cough: [
