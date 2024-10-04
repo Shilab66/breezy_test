@@ -40,7 +40,7 @@ const Calendar = () => {
   const getTraitColor = (day) => {
     // Dummy function: returns random points based on day. Replace with real data.
     const randomTrait = day;
-    const randomTrait = Math.floor(Math.random() * 3);
+    randomTrait = Math.floor(Math.random() * 3);
     const trait = traitsData[selectedTrait][randomTrait];
     return trait.color;
   };
