@@ -45,7 +45,7 @@ const Calendar = () => {
     return trait ? trait.color : '#e0e0e0'; // Gray color for no data
   };
 
-  const getDayInfo = (day) => {
+  const getDayInfo = () => {
     const randomTrait = Math.floor(Math.random() * 3);
     return traitsData[selectedTrait][randomTrait]; // Return the info for pop-up
   };
