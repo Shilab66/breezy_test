@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css'; // Import the CSS file
+import './css/App.css'; // Import the CSS file
 
 const traitsData = {
   Cough: [
