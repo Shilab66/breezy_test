@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/calendar.css'; // Import the CSS file
+import '../css/calendar.css'; // Importing the CSS file
 
 const traitsData = {
   Cough: [
@@ -29,26 +29,46 @@ const traitsData = {
   ]
 };
 
-
 const Calendar = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedTrait, setSelectedTrait] = useState('Cough');
+  const [hoveredDay, setHoveredDay] = useState(null); // To track hovered day
+  const [popupInfo, setPopupInfo] = useState(null); // To show pop-up info
 
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   
-  const getTraitColor = () => {
+  const getTraitColor = (day) => {
     // Dummy function: returns random points based on day. Replace with real data.
     const randomTrait = Math.floor(Math.random() * 3);
     const trait = traitsData[selectedTrait][randomTrait];
-    return trait.color;
+    return trait ? trait.color : '#e0e0e0'; // Gray color for no data
+  };
+
+  const getDayInfo = (day) => {
+    const randomTrait = Math.floor(Math.random() * 3);
+    return traitsData[selectedTrait][randomTrait]; // Return the info for pop-up
   };
 
   const renderDays = () => {
     const daysArray = [];
     for (let day = 1; day <= daysInMonth; day++) {
+      const dayInfo = getDayInfo(day);
+
       daysArray.push(
-        <div key={day} className="calendar-day" style={{ backgroundColor: getTraitColor(day) }}>
+        <div 
+          key={day} 
+          className="calendar-day" 
+          style={{ backgroundColor: getTraitColor(day) }}
+          onMouseEnter={() => {
+            setHoveredDay(day);
+            setPopupInfo(dayInfo); // Set info for the day
+          }}
+          onMouseLeave={() => {
+            setHoveredDay(null);
+            setPopupInfo(null); // Remove pop-up info on hover leave
+          }}
+        >
           {day}
         </div>
       );
@@ -57,7 +77,7 @@ const Calendar = () => {
   };
 
   return (
-    <div>
+    <div className="calendar-container">
       {/* Month & Year Selector */}
       <div className="selectors">
         <select value={selectedMonth} onChange={(e) => setSelectedMonth(parseInt(e.target.value))}>
@@ -84,6 +104,15 @@ const Calendar = () => {
       <div className="calendar-grid">
         {renderDays()}
       </div>
+
+      {/* Pop-up info */}
+      {hoveredDay && popupInfo && (
+        <div className="popup">
+          <h4>Day {hoveredDay} Info</h4>
+          <p>{popupInfo.label}</p>
+          <p>Points: {popupInfo.points}</p>
+        </div>
+      )}
     </div>
   );
 };
