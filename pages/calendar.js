@@ -37,10 +37,9 @@ const Calendar = () => {
 
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   
-  const getTraitColor = (day) => {
+  const getTraitColor = () => {
     // Dummy function: returns random points based on day. Replace with real data.
-    const randomTrait = day;
-    randomTrait = Math.floor(Math.random() * 3);
+    const randomTrait = Math.floor(Math.random() * 3);
     const trait = traitsData[selectedTrait][randomTrait];
     return trait.color;
   };
