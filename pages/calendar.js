@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/calendar.css'; // Importing the CSS file
+import '../css/calendar.css';
 
 const traitsData = {
   Cough: [
@@ -39,7 +39,7 @@ const Calendar = () => {
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   
   const getTraitColor = (day) => {
-    // Dummy function: returns random points based on day. Replace with real data.
+    // returns random points based on day. Replace with real data.
     const randomTrait = Math.floor(Math.random() * 3);
     const trait = traitsData[selectedTrait][randomTrait];
     return trait ? trait.color : '#e0e0e0'; // Gray color for no data
