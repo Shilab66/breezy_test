@@ -1,4 +1,24 @@
 import { useState } from 'react';
+import { auth, db } from '../firebase.js'; // Firebase config
+
+const storeCOPDResult = async (result) => {
+  const user = auth.currentUser; // Get the currently authenticated user
+
+  if (user) {
+    const userId = user.uid; // Unique user ID
+
+    // Create a reference to the document (user ID is the document ID)
+    const userDocRef = doc(db, 'users', userId);
+
+    // Set the COPD in the user's document
+    await setDoc(userDocRef, {
+      COPDResult: result, // Store the result here
+      lastUpdated: new Date().toISOString(), // Optionally track when it was last updated
+    }, { merge: true }); // Use 'merge: true' to avoid overwriting other data in this document
+  } else {
+    console.log('No authenticated user found');
+  }
+};
 
 // Enum-like constants for the dropdowns
 const CoughSound = {
@@ -76,6 +96,7 @@ const COPDQuestionnaire = () => {
     } else {
       setDebug(`false`);
     }
+    storeCOPDResult(group);
   };
 
   return (
