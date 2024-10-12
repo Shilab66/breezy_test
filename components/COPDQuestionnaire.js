@@ -24,7 +24,7 @@ const storeCOPDResult = async (result, group) => {
       date: formattedDate,  // Store the formatted date (YYYY-MM-DD)
     });
 
-     console.log('After set firestore);
+     console.log('After set firestore');
   } else {
     console.error('No authenticated user found');
   }
