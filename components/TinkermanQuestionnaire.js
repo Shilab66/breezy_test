@@ -1,5 +1,5 @@
 import { useState } from 'react';import { doc, setDoc } from 'firebase/firestore'; // Firestore functions
-import { auth, db } from './firebaseConfig'; // Firebase config
+import { auth, db } from '../firebase.js'; // Firebase config
 
 const storeTinkerManResult = async (result) => {
   const user = auth.currentUser; // Get the currently authenticated user
