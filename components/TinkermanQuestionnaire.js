@@ -1,4 +1,25 @@
-import { useState } from 'react';
+import { useState } from 'react';import { doc, setDoc } from 'firebase/firestore'; // Firestore functions
+import { auth, db } from './firebaseConfig'; // Firebase config
+
+const storeTinkerManResult = async (result) => {
+  const user = auth.currentUser; // Get the currently authenticated user
+
+  if (user) {
+    const userId = user.uid; // Unique user ID
+
+    // Create a reference to the document (user ID is the document ID)
+    const userDocRef = doc(db, 'users', userId);
+
+    // Set the tinkerManResult in the user's document
+    await setDoc(userDocRef, {
+      tinkerManResult: result, // Store the result here
+      lastUpdated: new Date().toISOString(), // Optionally track when it was last updated
+    }, { merge: true }); // Use 'merge: true' to avoid overwriting other data in this document
+  } else {
+    console.log('No authenticated user found');
+  }
+};
+
 
 // Constants for the questionnaire options
 const AgeOnset = {
@@ -87,6 +108,7 @@ const HealthQuestionnaire = () => {
 
     const diagnosis = determineDiagnosis(totalScore, ageOnset, smokingHistory, cough);
     setResult(`Your profile suggests: ${diagnosis}`);
+    storeTinkerManResult(diagnosis);
   };
 
   return (
