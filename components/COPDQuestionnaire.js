@@ -16,11 +16,15 @@ const storeCOPDResult = async (result, group) => {
 
     const copdResultRef = doc(collection(userDocRef, 'copdResults'), formattedDate);
 
+     console.log('Before set firestore');
+
     await setDoc(copdResultRef, {
       result,           // Store all the questionnaire data
       group,            // Store the COPD group classification
       date: formattedDate,  // Store the formatted date (YYYY-MM-DD)
     });
+
+     console.log('After set firestore);
   } else {
     console.error('No authenticated user found');
   }
