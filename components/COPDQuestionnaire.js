@@ -5,26 +5,31 @@ const storeCOPDResult = async (result, group) => {
   const user = auth.currentUser;
 
   if (user) {
-    const userId = user.uid; // Unique user ID
+    try {
+      const userId = user.uid; // Unique user ID
 
-    // Create a reference to the user's document in the Firestore 'users' collection
-    const userDocRef = doc(db, 'users', userId);
-    
-    // Create a subcollection 'copdResults' and store the result with the current date
-    const date = new Date();
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+      // Create a reference to the user's document in the Firestore 'users' collection
+      const userDocRef = doc(db, 'users', userId);
+      
+      // Create a subcollection 'copdResults' and store the result with the current date
+      const date = new Date();
+      const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-    const copdResultRef = doc(collection(userDocRef, 'copdResults'), formattedDate);
+      const copdResultRef = doc(collection(userDocRef, 'copdResults'), formattedDate);
 
-     console.log('Before set firestore');
+      console.log('Before set firestore');
 
-    await setDoc(copdResultRef, {
-      result,           // Store all the questionnaire data
-      group,            // Store the COPD group classification
-      date: formattedDate,  // Store the formatted date (YYYY-MM-DD)
-    });
+      // Store the data in Firestore
+      await setDoc(copdResultRef, {
+        result,           // Store all the questionnaire data
+        group,            // Store the COPD group classification
+        date: formattedDate,  // Store the formatted date (YYYY-MM-DD)
+      });
 
-     console.log('After set firestore');
+      console.log('After set firestore');
+    } catch (error) {
+      console.error('Error writing to Firestore:', error);  // Log any errors encountered
+    }
   } else {
     console.error('No authenticated user found');
   }
