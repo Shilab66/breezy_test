@@ -1,22 +1,28 @@
 import { useState } from 'react';
 import { auth, db } from '../firebase.js'; // Firebase config
 
-const storeCOPDResult = async (result) => {
-  const user = auth.currentUser; // Get the currently authenticated user
+const storeCOPDResult = async (result, group) => {
+  const user = auth.currentUser;
 
   if (user) {
     const userId = user.uid; // Unique user ID
 
-    // Create a reference to the document (user ID is the document ID)
+    // Create a reference to the user's document in the Firestore 'users' collection
     const userDocRef = doc(db, 'users', userId);
+    
+    // Create a subcollection 'copdResults' and store the result with the current date
+    const date = new Date();
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-    // Set the COPD in the user's document
-    await setDoc(userDocRef, {
-      COPDResult: result, // Store the result here
-      lastUpdated: new Date().toISOString(), // Optionally track when it was last updated
-    }, { merge: true }); // Use 'merge: true' to avoid overwriting other data in this document
+    const copdResultRef = doc(collection(userDocRef, 'copdResults'), formattedDate);
+
+    await setDoc(copdResultRef, {
+      result,           // Store all the questionnaire data
+      group,            // Store the COPD group classification
+      date: formattedDate,  // Store the formatted date (YYYY-MM-DD)
+    });
   } else {
-    console.log('No authenticated user found');
+    console.error('No authenticated user found');
   }
 };
 
@@ -89,14 +95,28 @@ const COPDQuestionnaire = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  
+    const copdData = {
+      cough: questionScores[0],  // User's input for "I never cough / I cough all the time"
+      phlegm: questionScores[1],  // User's input for "I have no phlegm in my chest / My chest is full of phlegm"
+      chestTightness: questionScores[2],
+      breathlessness: questionScores[3],
+      activityLimitations: questionScores[4],
+      confidenceLeavingHome: questionScores[5],
+      sleepQuality: questionScores[6],
+      energyLevel: questionScores[7],
+      exacerbations,  // User's input for number of exacerbations
+      hospitalVisits,  // User's input for number of hospital visits
+    };
+  
+    // Calculate the COPD group
     const group = determineCOPDGroup(coughSound, symptoms, CATScore, exacerbations, hospitalVisits);
+    
+    // Update result in UI
     setResult(`The patient falls into: ${group}`);
-    if (CATScore < 10 && exacerbations <= 1 && hospitalVisits === 0) {
-      setDebug(`true`);
-    } else {
-      setDebug(`false`);
-    }
-    storeCOPDResult(group);
+  
+    // Store the COPD questionnaire result and group in Firestore
+    storeCOPDResult(copdData, group);
   };
 
   return (
